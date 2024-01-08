@@ -42,7 +42,7 @@ def video_page(video):
 
 @app.route('/')
 def cat_page():
-    url = "http://34.173.227.154/myflix/videos"
+    url = "http://34.16.96.108/myflix/videos"
     headers = {}
     payload = json.dumps({ })
 
