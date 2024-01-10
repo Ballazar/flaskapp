@@ -10,20 +10,19 @@
     </head>
     <body>
       <h1>Your video</h1>
-      <h2>{{ name }}</h1>
-
-
-      <video id="my_video_1" class="video-js vjs-default-skin" width="640px" height="267px"
-	     controls preload="none" poster='http://35.228.171.94/pics/{{pic}}'
-	     data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
-	<source src="http://35.228.171.94/{{file}}" type='video/mp4' />
-       <h2>Recommended Videos</h2>
-<ul>
-    {% for recommendation in recommendations %}
+	<h2>{{ name }}</h1>
+	    <h3>Recommended Videos</h3>
+	<ul>
+		{% for recommendation in recommendations %}
         <li>
             <a href="{{ recommendation.url }}">{{ recommendation.name }}</a>
         </li>
     {% endfor %}
 </ul>
+      <video id="my_video_1" class="video-js vjs-default-skin" width="640px" height="267px"
+	     controls preload="none" poster='http://35.228.171.94/pics/{{pic}}'
+	     data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
+	<source src="http://35.228.171.94/{{file}}" type='video/mp4' />
+
       </video>
       </div>
