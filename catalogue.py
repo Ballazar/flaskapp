@@ -1,7 +1,10 @@
 from datetime import *
 import time
 import sys
-
+from flask_wtf.csrf import CSRFProtect
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from forms import RegistrationForm, LoginForm
+from models import users, User
 import json
 import requests
 # First we set our credentials
@@ -10,7 +13,45 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 app = Flask(__name__)
 app.debug = True
+csrf = CSRFProtect(app)
+app.config['SECRET_KEY'] = 'your_secret_key'
 
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return next((user for user in users if user.id == int(user_id)), None)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        new_user = User(len(users) + 1, form.username.data, form.password.data)
+        users.append(new_user)
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = next((user for user in users if user.username == form.username.data), None)
+        if user and user.password == form.password.data:
+            login_user(user)
+            return redirect(url_for('index'))
+    return render_template('login.html', form=form)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+@app.route('/')
+@login_required
+def index():
+    return f'Hello, {current_user.username}!'
 @app.route('/Video/<video>')
 def video_page(video):
     print (video)
