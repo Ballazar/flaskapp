@@ -85,7 +85,7 @@ def cat_page():
 RECOMMENDATION_ENGINE_URL = 'http://34.132.46.46'
 
 @app.route('/recommendation/<int:user_id>')
-def get_recommendation(user_id):
+def get_recommendations_for_user(user_id):
     try:
         response = requests.get(f'{RECOMMENDATION_ENGINE_URL}/{user_id}')
         response.raise_for_status()
