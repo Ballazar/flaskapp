@@ -10,7 +10,6 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 app = Flask(__name__)
 app.debug = True
-RECOMMENDATION_ENGINE_URL = 'http://34.132.46.46'
 
 @app.route('/Video/<video>')
 def video_page(video):
@@ -27,9 +26,6 @@ def video_page(video):
     jResp = response.json()
     print (type(jResp))
     print (jResp)
-    recommendation_url = f'{RECOMMENDATION_ENGINE_URL}/{video}'  # Adjust the URL based on your recommendation engine API
-    response = requests.get(recommendation_url)
-    recommendations = response.json()
     for index in jResp:
         for key in index:
            if (key !="_id"):
@@ -42,7 +38,7 @@ def video_page(video):
                       videofile=index[key][key2]
                   if (key2=="pic"):
                       pic=index[key][key2]
-    return render_template('video.html', name=video,file=videofile,pic=pic, recommendations=recommendations)
+    return render_template('video.html', name=video,file=videofile,pic=pic)
 
 @app.route('/')
 def cat_page():
