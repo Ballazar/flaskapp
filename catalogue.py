@@ -26,6 +26,7 @@ def video_page(video):
     jResp = response.json()
     print (type(jResp))
     print (jResp)
+    recommendations = get_recommendations_for_user(1)
     for index in jResp:
         for key in index:
            if (key !="_id"):
@@ -38,7 +39,7 @@ def video_page(video):
                       videofile=index[key][key2]
                   if (key2=="pic"):
                       pic=index[key][key2]
-    return render_template('video.html', name=video,file=videofile,pic=pic)
+    return render_template('video.html', name=video,file=videofile,pic=pic, recommendations=recommendations)
 
 @app.route('/')
 def cat_page():
