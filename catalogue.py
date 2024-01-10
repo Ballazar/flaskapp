@@ -39,10 +39,7 @@ def video_page(video):
                   if (key2=="pic"):
                       pic=index[key][key2]
     
-    recommendation_url = f'{'http://34.29.145.20'}/{video}'
-    response = requests.get(recommendation_url)
-    recommendations = response.json()
-    return render_template('video.html', name=video,file=videofile,pic=pic, recommendations=recommendations)
+    return render_template('video.html', name=video,file=videofile,pic=pic)
 
 @app.route('/')
 def cat_page():
