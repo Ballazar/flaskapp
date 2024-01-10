@@ -38,10 +38,7 @@ def video_page(video):
                       videofile=index[key][key2]
                   if (key2=="pic"):
                       pic=index[key][key2]
-    recommendation_url = f'{'http://34.29.145.20'}/{video}'
-    response = requests.get(recommendation_url)
-    
-    return render_template('video.html', name=video,file=videofile,pic=pic, recommendations=recommendations)
+    return render_template('video.html', name=video,file=videofile,pic=pic)
 
 @app.route('/')
 def cat_page():
@@ -83,6 +80,18 @@ def cat_page():
               print("=======================")
 
     return html
+
+RECOMMENDATION_ENGINE_URL = 'http://34.132.46.46'
+
+@app.route('/recommendation/<int:user_id>')
+def get_recommendation(user_id):
+    try:
+        response = requests.get(f'{RECOMMENDATION_ENGINE_URL}/{user_id}')
+        response.raise_for_status()
+        recommendations = response.json()
+        return render_template('recommendation.html', user_id=user_id, recommendations=recommendations)
+    except requests.exceptions.RequestException as e:
+        return f"Error: {e}"
 
 
 if __name__ == '__main__':
