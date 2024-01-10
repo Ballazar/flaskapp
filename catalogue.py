@@ -91,7 +91,9 @@ def get_recommendation(user_id):
         recommendations = response.json()
         return render_template('recommendation.html', user_id=user_id, recommendations=recommendations)
     except requests.exceptions.RequestException as e:
-        return f"Error: {e}"
+        print(f"Error: {e}")
+        return []
+         
 
 
 if __name__ == '__main__':
