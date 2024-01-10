@@ -13,39 +13,6 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 app = Flask(__name__)
 app.debug = True
 
-app.secret_key = '92f8cde19d9aba66707b8005cb2bf444'
-
-# Configuration for Flask-Login
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
-
-
-class User(UserMixin):
-    def __init__(self, id, username, password):
-        self.id = id
-        self.username = username
-        self.password = password
-
-
-# In-memory user list (replace with a database later)
-users = [
-    User(1, 'user1', 'password1'),
-    User(2, 'user2', 'password2'),
-]
-
-
-class RegistrationForm(FlaskForm):
-    username = StringField('Username', [validators.Length(min=4, max=25)])
-    password = PasswordField('Password', [validators.DataRequired(), validators.EqualTo('confirm', message='Passwords must match')])
-    confirm = PasswordField('Repeat Password')
-    submit = SubmitField('Register')
-
-
-class LoginForm(FlaskForm):
-    username = StringField('Username', [validators.DataRequired()])
-    password = PasswordField('Password', [validators.DataRequired()])
-    submit = SubmitField('Login')
-
 @app.route('/Video/<video>')
 def video_page(video):
     print (video)
@@ -115,44 +82,6 @@ def cat_page():
               print("=======================")
 
     return html
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        new_user = User(len(users) + 1, form.username.data, form.password.data)
-        users.append(new_user)
-        flash('Registration successful. You can now log in.', 'success')
-        return redirect(url_for('login'))
-    return render_template('register.html', form=form)
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = next((u for u in users if u.username == form.username.data), None)
-        if user and user.password == form.password.data:
-            login_user(user)
-            flash('Login successful.', 'success')
-            return redirect(url_for('index'))
-        else:
-            flash('Login failed. Check your username and password.', 'danger')
-    return render_template('login.html', form=form)
-
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    flash('You have been logged out.', 'info')
-    return redirect(url_for('index'))
-
-
-@app.route('/index')
-@login_required
-def index():
-    return f'Hello, {current_user.username}!'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port="5000")
