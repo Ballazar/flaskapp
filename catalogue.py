@@ -82,7 +82,7 @@ def cat_page():
 
     return html
 
-RECOMMENDATION_ENGINE_URL = 'http://34.132.46.46'
+RECOMMENDATION_ENGINE_URL = 'http://34.67.49.32'
 
 @app.route('/recommendation/<int:user_id>')
 def get_recommendations_for_user(user_id):
