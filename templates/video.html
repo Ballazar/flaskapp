@@ -17,5 +17,13 @@
 	     controls preload="none" poster='http://35.228.171.94/pics/{{pic}}'
 	     data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
 	<source src="http://35.228.171.94/{{file}}" type='video/mp4' />
+       <h2>Recommended Videos</h2>
+<ul>
+    {% for recommendation in recommendations %}
+        <li>
+            <a href="{{ recommendation.url }}">{{ recommendation.name }}</a>
+        </li>
+    {% endfor %}
+</ul>
       </video>
       </div>
