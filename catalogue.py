@@ -48,10 +48,6 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/')
-@login_required
-def index():
-    return f'Hello, {current_user.username}!'
 @app.route('/Video/<video>')
 def video_page(video):
     print (video)
