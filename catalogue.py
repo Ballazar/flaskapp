@@ -1,9 +1,7 @@
 from datetime import *
 import time
 import sys
-from flask_wtf import FlaskForm
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+
 import json
 import requests
 # First we set our credentials
@@ -82,6 +80,7 @@ def cat_page():
               print("=======================")
 
     return html
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port="5000")
