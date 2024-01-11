@@ -11,14 +11,6 @@
     <body>
       <h1>Your video</h1>
 	<h2>{{ name }}</h2>
-	<h3>Recommended Videos</h3>
-	    <ul>
-	        {% for recommendation in recommendations %}
-	            <li>
-	                <a href="{{ recommendation.url }}">{{ recommendation.name }}</a>
-	            </li>
-	        {% endfor %}
-	    </ul>
 
       <video id="my_video_1" class="video-js vjs-default-skin" width="640px" height="267px"
 	     controls preload="none" poster='http://35.228.171.94/pics/{{pic}}'
