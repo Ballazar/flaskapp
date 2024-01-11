@@ -82,20 +82,5 @@ def cat_page():
 
     return html
 
-RECOMMENDATION_ENGINE_URL = 'http://34.67.49.32'
-
-@app.route('/recommendation/<int:user_id>')
-def get_recommendations_for_user(user_id):
-    try:
-        response = requests.get(f'{RECOMMENDATION_ENGINE_URL}/{user_id}')
-        response.raise_for_status()
-        recommendations = response.json()
-        return render_template('recommendation.html', user_id=user_id, recommendations=recommendations)
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
-        return []
-         
-
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port="5000")
