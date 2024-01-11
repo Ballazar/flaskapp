@@ -25,8 +25,7 @@ def video_page(video):
       return "Unexpected response: {0}. Status: {1}. Message: {2}".format(response.reason, response.status, jResp['Exception']['Message'])
     jResp = response.json()
     print (type(jResp))
-    print (jResp)
-    recommendations = get_recommendations_for_user(1)
+    print (jResp))
     for index in jResp:
         for key in index:
            if (key !="_id"):
