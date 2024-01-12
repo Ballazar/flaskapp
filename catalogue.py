@@ -8,12 +8,17 @@ import requests
 import subprocess
 
 
+
+
+
 # First we set our credentials
 
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 app = Flask(__name__)
 app.debug = True
+
+
 
 telnet_host = "35.202.42.46"
 telnet_port = 80
@@ -50,9 +55,11 @@ def parse_recommendations(recommendations):
     for line in lines:
         parts = line.split(':')
         if len(parts) == 2:
-            title, genres = parts[0].strip(), parts[1].strip()
+            title, genres = parts[0], parts[1]
             recommendations_list.append({'title': title, 'genres': genres})
     return recommendations_list
+
+
 
 @app.route('/Video/<video>')
 def video_page(video):
@@ -121,7 +128,7 @@ def cat_page():
                 html += "</a>"
                 print("=======================")
 
-         recommendations = get_recommendations()
+    recommendations = get_recommendations()
     if recommendations is not None:
         # Parse recommendations
         recommended_movies = parse_recommendations(recommendations)
@@ -133,6 +140,13 @@ def cat_page():
             html += '<p>' + movie['genres'] + '</p>'
     else:
         print("Failed to retrieve recommendations.")
+
+        
+
+
+
+
+
 
     html += "<pre>" + recommendations + "</pre>"
     return html
