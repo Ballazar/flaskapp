@@ -1,9 +1,13 @@
 from datetime import *
 import time
 import sys
-
+import telnetlib
+import random
 import json
 import requests
+import subprocess
+
+
 # First we set our credentials
 
 from flask import Flask, request, session, g, redirect, url_for, abort, \
@@ -25,7 +29,7 @@ def video_page(video):
       return "Unexpected response: {0}. Status: {1}. Message: {2}".format(response.reason, response.status, jResp['Exception']['Message'])
     jResp = response.json()
     print (type(jResp))
-    print (jResp))
+    print (jResp)
     for index in jResp:
         for key in index:
            if (key !="_id"):
@@ -38,7 +42,9 @@ def video_page(video):
                       videofile=index[key][key2]
                   if (key2=="pic"):
                       pic=index[key][key2]
+
     return render_template('video.html', name=video,file=videofile,pic=pic)
+
 
 @app.route('/')
 def cat_page():
@@ -47,39 +53,37 @@ def cat_page():
     payload = json.dumps({ })
 
     response = requests.get(url)
-    #print (response)
-    # exit if status code is not ok
-    print (response)
-    print (response.status_code)
+    print(response)
+    print(response.status_code)
     if response.status_code != 200:
-      print("Unexpected response: {0}. Status: {1}. Message: {2}".format(response.reason, response.status, jResp['Exception']['Message']))
-      return "Unexpected response: {0}. Status: {1}. Message: {2}".format(response.reason, response.status, jResp['Exception']['Message'])
-    jResp = response.json()
-    print (type(jResp))
-    html="<h2> Your Videos</h2>"
-    for index in jResp:
-       #print (json.dumps(index))
-       print ("----------------")
-       for key in index:
+        print("Unexpected response:", response)
+        return "Unexpected response from myflix service."
 
-           if (key !="_id"):
-              print (index[key])
-              for key2 in index[key]:
-                  print (key2,index[key][key2])
-                  if (key2=="Name"):
-                      name=index[key][key2]
-                  if (key2=="thumb"):
-                      thumb=index[key][key2]
-                  if (key2=="uuid"):
-                      uuid=index[key][key2]  
-              html=html+'<h3>'+name+'</h3>'
-              ServerIP=request.host.split(':')[0]
-              html=html+'<a href="http://'+ServerIP+'/Video/'+uuid+'">'
-              html=html+'<img src="http://34.125.64.206/pics/'+thumb+'">'
-              html=html+"</a>"        
-              print("=======================")
+    jResp = response.json()
+    print(type(jResp))
+    html = "<h2> Your Videos</h2>"
+    for index in jResp:
+        print("----------------")
+        for key in index:
+            if key != "_id":
+                print(index[key])
+                for key2 in index[key]:
+                    print(key2, index[key][key2])
+                    if key2 == "Name":
+                        name = index[key][key2]
+                    if key2 == "thumb":
+                        thumb = index[key][key2]
+                    if key2 == "uuid":
+                        uuid = index[key][key2]
+                html += '<h3>' + name + '</h3>'
+                ServerIP = request.host.split(':')[0]
+                html += '<a href="http://' + ServerIP + '/Video/' + uuid + '">'
+                html += '<img src="http://34.125.64.206/pics/' + thumb + '">'
+                html += "</a>"
+                print("=======================")
 
     return html
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port="5000")
