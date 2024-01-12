@@ -20,7 +20,7 @@ app.debug = True
 
 
 
-telnet_host = "35.202.42.46"
+telnet_host = "34.170.199.102"
 telnet_port = 80
 
 def get_recommendations():
