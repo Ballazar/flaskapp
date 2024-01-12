@@ -35,7 +35,7 @@ def get_recommendations():
         tn.write(f"{random_number}\n".encode('ascii'))
 
         # Read the output from telnet
-        telnet_output = tn.read_until(b"\n", timeout=5).decode('utf-8')
+        telnet_output = tn.read_all().decode('utf-8')
 
         # Close the telnet connection
         tn.close()
