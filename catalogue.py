@@ -15,6 +15,45 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 app = Flask(__name__)
 app.debug = True
 
+telnet_host = "34.170.199.102"
+telnet_port = 80
+
+def get_recommendations():
+    try:
+        # Create a Telnet object
+        tn = telnetlib.Telnet(telnet_host, telnet_port, timeout=5)
+
+        # Replace the following line with your logic to generate a random number
+        random_number = str(random.randint(1, 400))
+
+        # Send the random number to telnet
+        tn.write(f"{random_number}\n".encode('ascii'))
+
+        # Read the output from telnet
+        telnet_output = tn.read_until(b"\n", timeout=5).decode('utf-8')
+
+        # Close the telnet connection
+        tn.close()
+
+        # Print the telnet output for debugging
+        print("Telnet Output:", telnet_output)
+
+        return telnet_output
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+
+
+def parse_recommendations(recommendations):
+    recommendations_list = []
+    lines = recommendations.split('\n')[1:-1]  # Skip the first and last lines
+    for line in lines:
+        parts = line.split(':')
+        if len(parts) == 2:
+            title, genres = parts[0].strip(), parts[1].strip()
+            recommendations_list.append({'title': title, 'genres': genres})
+    return recommendations_list
+
 @app.route('/Video/<video>')
 def video_page(video):
     print (video)
@@ -82,6 +121,20 @@ def cat_page():
                 html += "</a>"
                 print("=======================")
 
+         recommendations = get_recommendations()
+    if recommendations is not None:
+        # Parse recommendations
+        recommended_movies = parse_recommendations(recommendations)
+
+        # Display recommended movies on the main page
+        html += "<h2> Recommended Movies</h2>"
+        for movie in recommended_movies:
+            html += '<h3>' + movie['title'] + '</h3>'
+            html += '<p>' + movie['genres'] + '</p>'
+    else:
+        print("Failed to retrieve recommendations.")
+
+    html += "<pre>" + recommendations + "</pre>"
     return html
 
 
