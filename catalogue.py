@@ -35,15 +35,20 @@ def get_recommendations():
         tn.write(f"{random_number}\n".encode('ascii'))
 
         # Read the output from telnet
-        telnet_output = tn.read_all().decode('utf-8')
-
+        telnet_output = b""
+        while True:
+            chunk = tn.read_until(b"\n", timeout=5)
+            if not chunk:
+                break
+            telnet_output += chunk
         # Close the telnet connection
         tn.close()
+
 
         # Print the telnet output for debugging
         print("Telnet Output:", telnet_output)
 
-        return telnet_output
+        return telnet_output.decode('utf-8')
     except Exception as e:
         print(f"Error: {e}")
         return None
