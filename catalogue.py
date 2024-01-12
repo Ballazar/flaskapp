@@ -51,7 +51,7 @@ def get_recommendations():
 
 def parse_recommendations(recommendations):
     recommendations_list = []
-    lines = recommendations.split('\n')[1:-1]  # Skip the first and last lines
+    lines = recommendations.strip().split('\n')  # Skip the first and last lines
     for line in lines:
         parts = line.split(':')
         if len(parts) == 2:
