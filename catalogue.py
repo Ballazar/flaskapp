@@ -38,7 +38,7 @@ def video_page(video):
                       videofile=index[key][key2]
                   if (key2=="pic"):
                       pic=index[key][key2]
-    return render_template('video.html', name=video,file=videofile,pic=pic, recommendations=recommendations)
+    return render_template('video.html', name=video,file=videofile,pic=pic)
 
 @app.route('/')
 def cat_page():
