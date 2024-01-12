@@ -55,7 +55,7 @@ def parse_recommendations(recommendations):
     for line in lines:
         parts = line.split(':')
         if len(parts) == 2:
-            title, genres = parts[0], parts[1]
+            title, genres = parts[0].strip(), parts[1].strip()
             recommendations_list.append({'title': title, 'genres': genres})
     return recommendations_list
 
