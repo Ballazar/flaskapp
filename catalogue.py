@@ -7,17 +7,12 @@ import json
 import requests
 import subprocess
 
-
-
-
-
 # First we set our credentials
 
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 app = Flask(__name__)
 app.debug = True
-
 
 
 telnet_host = "34.170.199.102"
@@ -35,8 +30,9 @@ def get_recommendations():
         tn.write(f"{random_number}\n".encode('ascii'))
 
         # Read the output from telnet
-        telnet_output = tn.read_until(b"\n", timeout=5).decode('utf-8')
-        # Close the telnet connection
+        telnet_output = tn.read_until(b"\r\n", timeout=5).decode('utf-8')
+       
+       # Close the telnet connection
         tn.close()
 
 
@@ -44,6 +40,7 @@ def get_recommendations():
         print("Telnet Output:", telnet_output)
 
         return telnet_output
+
     except Exception as e:
         print(f"Error: {e}")
         return None
@@ -55,7 +52,7 @@ def parse_recommendations(recommendations):
     for line in lines:
         parts = line.split(':')
         if len(parts) == 2:
-            title, genres = parts[0].strip(), parts[1].strip()
+            title, genres = parts[0], parts[1]
             recommendations_list.append({'title': title, 'genres': genres})
     return recommendations_list
 
@@ -135,20 +132,9 @@ def cat_page():
 
         # Display recommended movies on the main page
         html += "<h2> Recommended Movies</h2>"
-        for movie in recommended_movies:
-            html += '<h3>' + movie['title'] + '</h3>'
-            html += '<p>' + movie['genres'] + '</p>'
-    else:
-        print("Failed to retrieve recommendationspp.")
-
-        
-
-
-
-
-
-
-    html += "<pre>" + recommendations + "</pre>"
+       
+       
+    html += "<pre>" + recommendations + "</pre>" 
     return html
 
 
