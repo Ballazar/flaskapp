@@ -139,7 +139,7 @@ def cat_page():
             html += '<h3>' + movie['title'] + '</h3>'
             html += '<p>' + movie['genres'] + '</p>'
     else:
-        print("Failed to retrieve recommendations.")
+        print("Failed to retrieve recommendationspp.")
 
         
 
