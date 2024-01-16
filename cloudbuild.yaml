@@ -1,23 +1,8 @@
 steps:
-# Step 1: Install dependencies
-- name: 'gcr.io/cloud-builders/pip'
-  args: ['install', '-r', 'requirements.txt']
-
-# Step 2: Run unit tests (if applicable)
-- name: 'gcr.io/cloud-builders/python'
-  args: ['pytest']
-
-# Step 3: Copy your app files to the VM instance
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'scp', '--zone=us-west4-b', '--project=myflix', '--recurse', '.', 'myflix-p:/path/to/your/app']
-
-# Step 4: Restart the Flask app on the VM instance
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'ssh', 'myflix-p', '--zone=us-west4-b', '--project=myflix', '--command', 'sudo systemctl restart flaskapp']
-
-# Step 5: Run additional setup or deployment steps if needed
-
-# ...
-
-images: []
-
+- name: "gcr.io/cloud-builders/gcloud"
+  args: ["app", "deploy"]
+  dir: "/workspace"  # This is the default working directory in Cloud Build
+  substitutions:
+    _INSTANCE_NAME: "myflix-p"
+    _ZONE: "us-west4-b"
+    _PROJECT_ID: "myflix"
