@@ -12,10 +12,10 @@ steps:
 
   # Step 3: Build and push a Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/catalogue-app', '.']
+    args: ['build', '-t', 'gcr.io/myflix/catalogue-app', '.']
   
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/catalogue-app']
+    args: ['push', 'gcr.io/myflix/catalogue-app']
 
   # Step 4: SSH into the 'myflix' VM instance and restart the Docker container
   - name: 'gcr.io/cloud-builders/gcloud'
