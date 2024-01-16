@@ -131,7 +131,7 @@ def cat_page():
         recommended_movies = parse_recommendations(recommendations)
 
         # Display recommended movies on the main page
-        html += "<h2> Recommended Movies dsd</h2>"
+        html += "<h2> Recommended Movies</h2>"
        
        
     html += "<pre>" + recommendations + "</pre>" 
