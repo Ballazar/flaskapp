@@ -1,9 +1,9 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/myflix/myflix-p', '.']
+    args: ['build', '-t', 'gcr.io/myflix/flaskapp', '.']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/myflix/myflix-p']
+    args: ['push', 'gcr.io/myflix/flaskapp']
 
 images: ['gcr.io/myflix/myflix-p']
 
