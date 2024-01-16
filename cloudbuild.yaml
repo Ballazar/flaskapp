@@ -10,5 +10,5 @@ steps:
       - 'compute'
       - 'ssh'
       - 'myflix-p'
-      - '--zone=us-central1'
+      - '--zone=us-central1-a'
       - '--command=docker pull gcr.io/myflix-409117/flaskapp && docker run -d -p 80:5000 gcr.io/myflix-409117/flaskapp'
