@@ -157,7 +157,7 @@ def login():
         email = request.form['email']
         password = request.form['password']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM user WHERE email = % s AND password = % s', (email, password, ))
+        cursor.execute('SELECT * FROM users WHERE email = % s AND password = % s', (email, password, ))
         user = cursor.fetchone()
         if user:
             session['loggedin'] = True
@@ -185,7 +185,7 @@ def register():
         password = request.form['password']
         email = request.form['email']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM user WHERE email = % s', (email, ))
+        cursor.execute('SELECT * FROM users WHERE email = % s', (email, ))
         account = cursor.fetchone()
         if account:
             mesage = 'Account already exists !'
@@ -194,7 +194,7 @@ def register():
         elif not userName or not password or not email:
             mesage = 'Please fill out the form !'
         else:
-            cursor.execute('INSERT INTO user VALUES (NULL, % s, % s, % s)', (userName, email, password, ))
+            cursor.execute('INSERT INTO users VALUES (NULL, % s, % s, % s)', (username, email, password, ))
             mysql.connection.commit()
             mesage = 'You have successfully registered !'
     elif request.method == 'POST':
