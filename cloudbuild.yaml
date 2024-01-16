@@ -2,13 +2,13 @@ steps:
   - name: 'gcr.io/cloud-builders/git'
     args: ['clone', 'https://github.com/Ballazar/flaskapp']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/myflix-409117 /flaskapp', './flaskapp']
+    args: ['build', '-t', 'gcr.io/myflix-409117/flaskapp', './flaskapp']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/myflix-409117 /flaskapp']
+    args: ['push', 'gcr.io/myflix-409117/flaskapp']
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       - 'compute'
       - 'ssh'
-      - 'your-instance-name'
-      - '--zone=your-instance-zone'
-      - '--command=docker pull gcr.io/myflix-409117 /flaskapp && docker run -d -p 80:5000 gcr.io/myflix-409117 /flaskapp'
+      - 'myflix-p'
+      - '--zone=us-central1'
+      - '--command=docker pull gcr.io/myflix-409117/flaskapp && docker run -d -p 80:5000 gcr.io/myflix-409117/flaskapp'
