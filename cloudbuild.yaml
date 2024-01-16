@@ -1,7 +1,9 @@
 steps:
-- name: "gcr.io/cloud-builders/gcloud"
-  args:
-    - "app"
-    - "deploy"
-    - "/workspace/catalogue.py"  # Replace with the path to your app
-  dir: "/workspace"  # This is the default working directory in Cloud Build
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/myflix/myflix-p', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/myflix/myflix-p']
+
+images: ['gcr.io/myflix/myflix-p']
+
