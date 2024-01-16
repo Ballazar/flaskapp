@@ -7,7 +7,6 @@ import json
 import requests
 import subprocess
 
-
 # First we set our credentials
 
 from flask import Flask, request, session, g, redirect, url_for, abort, \
@@ -105,7 +104,7 @@ def cat_page():
 
     jResp = response.json()
     print(type(jResp))
-    html = "<h2> Your Videos</h2>"
+    html = "<h2> Your Videos B</h2>"
     for index in jResp:
         print("----------------")
         for key in index:
@@ -132,7 +131,7 @@ def cat_page():
         recommended_movies = parse_recommendations(recommendations)
 
         # Display recommended movies on the main page
-        html += "<h2> Recommended Movies xd</h2>"
+        html += "<h2> Recommended Movies add</h2>"
        
        
     html += "<pre>" + recommendations + "</pre>" 
