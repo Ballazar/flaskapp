@@ -6,9 +6,7 @@ import random
 import json
 import requests
 import subprocess
-from flask_mysqldb import MySQL
-import MySQLdb.cursors
-import re
+
 
 # First we set our credentials
 
