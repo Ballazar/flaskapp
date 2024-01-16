@@ -149,10 +149,10 @@ app.config['MYSQL_DB'] = 'users_db'
   
 mysql = MySQL(app)
   
-@app.route('/')
+
 @app.route('/login', methods =['GET', 'POST'])
 def login():
-    mesage = ''
+    message = ''
     if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
         email = request.form['email']
         password = request.form['password']
@@ -164,11 +164,11 @@ def login():
             session['id'] = user['id']
             session['username'] = user['username']
             session['email'] = user['email']
-            mesage = 'Logged in successfully !'
-            return render_template('user.html', mesage = mesage)
+            message = 'Logged in successfully !'
+            return render_template('user.html', message = message)
         else:
-            mesage = 'Please enter correct email / password !'
-    return render_template('login.html', mesage = mesage)
+            message = 'Please enter correct email / password !'
+    return render_template('login.html', message = message)
   
 @app.route('/logout')
 def logout():
@@ -179,7 +179,7 @@ def logout():
   
 @app.route('/register', methods =['GET', 'POST'])
 def register():
-    mesage = ''
+    message = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form :
         userName = request.form['username']
         password = request.form['password']
@@ -188,18 +188,18 @@ def register():
         cursor.execute('SELECT * FROM users WHERE email = % s', (email, ))
         account = cursor.fetchone()
         if account:
-            mesage = 'Account already exists !'
+            message = 'Account already exists !'
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-            mesage = 'Invalid email address !'
+            message = 'Invalid email address !'
         elif not userName or not password or not email:
-            mesage = 'Please fill out the form !'
+            message = 'Please fill out the form !'
         else:
             cursor.execute('INSERT INTO users VALUES (NULL, % s, % s, % s)', (username, email, password, ))
             mysql.connection.commit()
-            mesage = 'You have successfully registered !'
+            message = 'You have successfully registered !'
     elif request.method == 'POST':
-        mesage = 'Please fill out the form !'
-    return render_template('register.html', mesage = mesage)
+        message = 'Please fill out the form !'
+    return render_template('register.html', message = message)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port="5000")
