@@ -1,28 +1,23 @@
 steps:
-  # Step 1: Install dependencies
-  - name: 'gcr.io/cloud-builders/pip'
-    args: ['install', '-r', 'requirements.txt']
+# Step 1: Install dependencies
+- name: 'gcr.io/cloud-builders/pip'
+  args: ['install', '-r', 'requirements.txt']
 
-  # Step 2: Run tests (if applicable)
-  # Note: Update this step based on your testing framework
-  - name: 'gcr.io/cloud-builders/pip'
-    args: ['install', 'pytest']
-  - name: 'gcr.io/cloud-builders/pytest'
-    args: ['tests/']
+# Step 2: Run unit tests (if applicable)
+- name: 'gcr.io/cloud-builders/python'
+  args: ['pytest']
 
-  # Step 3: Build and push a Docker image
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/myflix/catalogue-app', '.']
-  
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/myflix/catalogue-app']
+# Step 3: Copy your app files to the VM instance
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['compute', 'scp', '--zone=us-west4-b', '--project=myflix', '--recurse', '.', 'myflix-p:/path/to/your/app']
 
-  # Step 4: SSH into the 'myflix' VM instance and restart the Docker container
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['compute', 'ssh', 'myflix', '--zone', 'us-west4-b', '--command', 'docker pull gcr.io/$PROJECT_ID/catalogue-app']
+# Step 4: Restart the Flask app on the VM instance
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['compute', 'ssh', 'myflix-p', '--zone=us-west4-b', '--project=myflix', '--command', 'sudo systemctl restart flaskapp']
 
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['compute', 'ssh', 'myflix', '--zone', 'us-west4-b', '--command', 'docker stop catalogue-app-container && docker rm catalogue-app-container']
+# Step 5: Run additional setup or deployment steps if needed
 
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['compute', 'ssh', 'myflix', '--zone', 'us-west4-b', '--command', 'docker run -d -p 5000:5000 --name catalogue-app-container gcr.io/$PROJECT_ID/catalogue-app']
+# ...
+
+images: []
+
