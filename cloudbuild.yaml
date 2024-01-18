@@ -6,9 +6,10 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/myflix-409117/flaskapp']
   - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - 'compute'
-      - 'ssh'
-      - 'myflix-p'
-      - '--zone=us-central1-a'
-      - '--command=docker pull gcr.io/myflix-409117/flaskapp && docker run -d -p 80:5000 gcr.io/myflix-409117/flaskapp'
+  - name: 'gcr.io/cloud-builders/gcloud'
+  args:
+    - 'compute'
+    - 'ssh'
+    - 'myflix-p'
+    - '--zone=us-central1-a'
+    - '--command=docker pull gcr.io/myflix-409117/flaskapp && docker run -it -p 80:5000 --name flaskapp-container -d gcr.io/myflix-409117/flaskapp'
