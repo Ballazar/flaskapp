@@ -23,7 +23,6 @@ def get_recommendations():
         # Create a Telnet object
         tn = telnetlib.Telnet(telnet_host, telnet_port, timeout=5)
 
-        # Replace the following line with your logic to generate a random number
         random_number = str(random.randint(1, 400))
 
         # Send the random number to telnet
@@ -32,7 +31,6 @@ def get_recommendations():
         # Read the output from telnet
         telnet_output = tn.read_until(b"\r\n", timeout=5).decode('utf-8')
        
-       # Close the telnet connection
         tn.close()
 
 
@@ -131,7 +129,7 @@ def cat_page():
         recommended_movies = parse_recommendations(recommendations)
 
         # Display recommended movies on the main page
-        html += "<h2> Recommended Movies test2</h2>"
+        html += "<h2> Recommended Movies test</h2>"
        
        
     html += "<pre>" + recommendations + "</pre>" 
